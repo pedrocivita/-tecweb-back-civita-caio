@@ -11,7 +11,8 @@ def index():
 @api_view(['GET', 'POST'])
 def movies(request):
     if request.method == 'POST':
-        newMovie = Movie(title=request.data['title'], fav=request.data['fav'])
+        newMovie = Movie(title=request.data['title'])
+        print(request)
         newMovie.save()
     try:
         movies = Movie.objects.all()
