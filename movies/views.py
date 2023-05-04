@@ -10,29 +10,29 @@ def index():
 
 @api_view(['GET', 'POST'])
 def movies(request):
-    if request.method == 'POST':
-        newMovie = Movie(title = request.data['title'])
-        newMovie.save()
     try:
         movies = Movie.objects.all()
-        print(movies)
     except Movie.DoesNotExist:
         raise Http404()
+        
+    if request.method == 'POST':
+        if request.data['title'] in [movie.title for movie in movies]:
+            return Response({'error': 'Movie already exists'})
+        else:
+            newMovie = Movie(title = request.data['title'])
+            newMovie.save()
+    print(movies)
     Serialized_movies = MovieSerializer(movies, many=True)
     return Response(Serialized_movies.data)
 
-@api_view(['GET', 'POST'])
-def movie(request, movie_id):
+@api_view(['GET', 'POST', 'DELETE'])
+def movie(request, title):
     try:
-        movie = Movie.objects.get(id=movie_id)
+        movie = Movie.objects.get(title=title)
     except Movie.DoesNotExist:
         raise Http404()
-    
-    if request.method == 'POST':
-        new_movie_data = request.data
-        movie.title = new_movie_data['title']
-        movie.fav = new_movie_data['fav']
-        movie.save()
+    if request.method == 'DELETE':
+        movie.delete()
 
     serialized_movie = MovieSerializer(movie)
     return Response(serialized_movie.data)
