@@ -21,7 +21,6 @@ def movies(request):
         else:
             newMovie = Movie(title = request.data['title'])
             newMovie.save()
-    print(movies)
     Serialized_movies = MovieSerializer(movies, many=True)
     return Response(Serialized_movies.data)
 
