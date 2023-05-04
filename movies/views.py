@@ -11,20 +11,20 @@ def index():
 @api_view(['GET', 'POST'])
 def movies(request):
     if request.method == 'POST':
-        newMovie = Movie(title=request.data['title'])
-        print(request)
+        newMovie = Movie(title = request.data['title'])
         newMovie.save()
     try:
         movies = Movie.objects.all()
+        print(movies)
     except Movie.DoesNotExist:
         raise Http404()
     Serialized_movies = MovieSerializer(movies, many=True)
     return Response(Serialized_movies.data)
 
 @api_view(['GET', 'POST'])
-def movie(request, note_id):
+def movie(request, movie_id):
     try:
-        movie = Movie.objects.get(id=note_id)
+        movie = Movie.objects.get(id=movie_id)
     except Movie.DoesNotExist:
         raise Http404()
     
