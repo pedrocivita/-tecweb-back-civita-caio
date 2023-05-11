@@ -66,10 +66,6 @@ DATABASES = {
 
 WSGI_APPLICATION = 'tecweb.wsgi.application'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -141,3 +137,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_ALLOW_ALL = True
